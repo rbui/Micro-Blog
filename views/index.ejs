@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset = "utf-8">
+	<title>Blog</title>
+ 	<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.1.1/css/bootstrap.min.css">
+</head>
+
+<body>
+
+	<h1> Blog </h1>
+	<hr/>
+	<form id="new-blog">
+		<label>Title:</label><input id="new-title" name="new-title" type="text"/>
+		<label>Body:</label><input id="new-body" name="new-body" type="text"/>
+		<input type="file" name="pic" accept="image/*">
+		<button> Submit</button>
+	</form>
+	<div id="blogs-container"></div>
+
+
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+ 	<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+ 	<script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
+ 	<script src="/javascripts/main.js"></script>
+
+ 	<script type="text/template" id="blog-template">
+	 	<span class="title">{{ title }}:</span>
+	 	<span class="body">{{ body }}</span>
+	 	<a href="#" class="edit">[edit]</a>
+		<a href="#" class="delete">[delete]</a>
+ 	</script>
+
+</body>
+
+</html>
