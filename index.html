@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset = "utf-8">
+	<title>Blog</title>
+ 	<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.1.1/css/bootstrap.min.css">
+</head>
+
+<body>
+
+	<div class="container">
+		<h1> Blog </h1>
+		<hr/>
+		<div class="page"></div>
+		<form id="new-blog">
+			<label>Title:</label><input id="new-title" name="new-title" type="text"/>
+			<label>Body:</label><input id="new-body" name="new-body" type="text"/>
+			<button> Submit</button>
+		</form>
+	</div>
+
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+ 	<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+ 	<script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
+ 	<script>
+
+ 	(function($){
+ 		var Blog = Backbone.Model.extend({
+	 		defaults: function(){
+	 			return {
+	 				title: '',
+	 				body: ''
+	 			}
+	 		}
+	 	});
+
+	 	var Blogs = Backbone.Collection.extend({
+	 		model: Blog
+	 	});	 	
+
+	 	var blogs = new Blogs();
+
+	 	$(document).ready(function(){
+	 		$('#new-blog').submit(function(ev){
+	 			
+	 			var blog = new Blog({title: $('#new-title').val(), body: $('#new-body').val()});
+	 			
+	 			blogs.add(blog);
+	 			console.log(blogs.toJSON());
+
+	 			return false;
+	 		});
+	 	});
+	 	
+
+ 	})(jQuery);
+	 	
+ 		// 	url: '/blogs'
+	 	// });
+
+ 		// var BlogList = Backbone.View.extend({
+ 		// 	el: '.page',
+ 		// 	render: function() {
+ 		// 		var that = this;
+ 		// 		var blogs = new Blogs();
+ 		// 		blogs.fetch({
+ 		// 			success: function(blogs) {
+ 		// 				var template = _.template()
+ 		// 				that.$el.html('HERRO WORLD');
+ 		// 			}
+ 		// 		});
+ 		// 		// this.$el.html('CONTENT SHOWS HERE');
+ 		// 	}
+ 		// });
+
+ 		// var Router = Backbone.Router.extend({
+ 		// 	routes: {
+ 		// 		'': 'home'
+ 		// 	}
+ 		// });
+
+ 		// var blogList = new BlogList();
+
+ 		// var router = new Router();
+ 		// router.on('route: home', function(){
+ 		// 	blogList.render();
+ 		// 	console.log('Home page has been loaded');
+ 		// });
+
+ 		// Backbone.history.start();
+
+ 	</script>
+</body>
+
+</html>
