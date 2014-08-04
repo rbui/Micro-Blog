@@ -8,88 +8,113 @@
 
 <body>
 
-	<div class="container">
-		<h1> Blog </h1>
-		<hr/>
-		<div class="page"></div>
-		<form id="new-blog">
-			<label>Title:</label><input id="new-title" name="new-title" type="text"/>
-			<label>Body:</label><input id="new-body" name="new-body" type="text"/>
-			<button> Submit</button>
-		</form>
-	</div>
+	<h1> Blog </h1>
+	<hr/>
+	<form id="new-blog">
+		<label>Title:</label><input id="new-title" name="new-title" type="text"/>
+		<label>Body:</label><input id="new-body" name="new-body" type="text"/>
+		<button> Submit</button>
+	</form>
+	<div id="blogs-container"></div>
+
 
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
  	<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
  	<script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
  	<script>
 
- 	(function($){
- 		var Blog = Backbone.Model.extend({
-	 		defaults: function(){
-	 			return {
-	 				title: '',
-	 				body: ''
-	 			}
-	 		}
-	 	});
+ 	(function($) {
+		var Blog = Backbone.Model.extend({
+			defaults: function() {
+				return {
+					title: '',
+					body: ''
+				}
+			}
+		});
+		var BlogsList = Backbone.Collection.extend({
+			model: Blog
+		});
+		var blogs = new BlogsList();
 
-	 	var Blogs = Backbone.Collection.extend({
-	 		model: Blog
-	 	});	 	
+		var BlogView = Backbone.View.extend({
+			model: new Blog(),
+			tagName: 'div',
+			events: {
+				'click .edit': 'edit',
+				'click .delete': 'delete',
+				'blur .body': 'close',
+				'keypress .body': 'onEnterUpdate'
+			},
+			initialize: function() {
+				this.template = _.template($('#blog-template').html());
+			},
+			edit: function(ev) {
+				ev.preventDefault();
+				this.$('.body').attr('contenteditable', true).focus();
+			},
+			close: function(ev) {
+				var body = this.$('.body').text();
+				this.model.set('body', body);
+				this.$('.body').removeAttr('contenteditable');
+			},
+			onEnterUpdate: function(ev) {
+				var self = this;
+				if (ev.keyCode === 13) {
+					this.close();
+					_.delay(function() { self.$('.body').blur() }, 100);
+				}
+			},
+			delete: function(ev) {
+				ev.preventDefault();
+				blogs.remove(this.model);
+			},
+			render: function() {
+				this.$el.html(this.template(this.model.toJSON()));
+				return this;
+			}
+		});
 
-	 	var blogs = new Blogs();
+		var BlogsView = Backbone.View.extend({
+			model: blogs,
+			el: $('#blogs-container'),
+			initialize: function() {
+				this.model.on('add', this.render, this);
+				this.model.on('remove', this.render, this);
+			},
+			render: function() {
+				var self = this;
+				self.$el.html('');
+				_.each(this.model.toArray(), function(blog, i) {
+					self.$el.append((new BlogView({model: blog})).render().$el);
+				});
+				return this;
+			}
+		});
 
-	 	$(document).ready(function(){
-	 		$('#new-blog').submit(function(ev){
-	 			
-	 			var blog = new Blog({title: $('#new-title').val(), body: $('#new-body').val()});
-	 			
-	 			blogs.add(blog);
-	 			console.log(blogs.toJSON());
+		$(document).ready(function() {
+			$('#new-blog').submit(function(ev) {
+				var blog = new Blog({ title: $('#new-title').val(), body: $('#new-body').val() });
+				blogs.add(blog);
+				console.log(blogs.toJSON());
 
-	 			return false;
-	 		});
-	 	});
-	 	
+				return false;		
+			});
 
- 	})(jQuery);
-	 	
- 		// 	url: '/blogs'
-	 	// });
+			var appView = new BlogsView();
+		});
 
- 		// var BlogList = Backbone.View.extend({
- 		// 	el: '.page',
- 		// 	render: function() {
- 		// 		var that = this;
- 		// 		var blogs = new Blogs();
- 		// 		blogs.fetch({
- 		// 			success: function(blogs) {
- 		// 				var template = _.template()
- 		// 				that.$el.html('HERRO WORLD');
- 		// 			}
- 		// 		});
- 		// 		// this.$el.html('CONTENT SHOWS HERE');
- 		// 	}
- 		// });
-
- 		// var Router = Backbone.Router.extend({
- 		// 	routes: {
- 		// 		'': 'home'
- 		// 	}
- 		// });
-
- 		// var blogList = new BlogList();
-
- 		// var router = new Router();
- 		// router.on('route: home', function(){
- 		// 	blogList.render();
- 		// 	console.log('Home page has been loaded');
- 		// });
-
- 		// Backbone.history.start();
+	})(jQuery);
 
  	</script>
+
+ 	<script type="text/template" id="blog-template">
+	 	<span class="title"><%= title %>:</span>
+	 	<span class="body"><%= body %></span>
+	 	<a href="#" class="edit">[edit]</a>
+		<a href="#" class="delete">[delete]</a>
+ 	</script>
+
 </body>
 
 </html>
