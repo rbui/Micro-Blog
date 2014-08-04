@@ -25,10 +25,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // CRUD
 app.get('/blogs', blogs.index);
 app.post('/blogs', blogs.create);
-app.get('/blogs/:id', blogs.show);
 app.put('/blogs/:id', blogs.update);
 app.delete('/blogs/:id', blogs.destroy);
-
 
 app.use('/', routes);
 app.use('/users', users);
