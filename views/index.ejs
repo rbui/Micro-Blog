@@ -1,22 +1,33 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset = "utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Blog</title>
- 	<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.1.1/css/bootstrap.min.css">
+ 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 </head>
 
 <body>
+	<div class="container">
+		<h1> Blog </h1>
+		<hr/>
+		<div id="blogs-container"></div>
 
-	<h1> Blog </h1>
-	<hr/>
-	<form id="new-blog">
-		<label>Title:</label><input id="new-title" name="new-title" type="text"/>
-		<label>Body:</label><input id="new-body" name="new-body" type="text"/>
-		<input type="file" name="pic" accept="image/*">
-		<button class="btn"> Submit</button>
-	</form>
-	<div id="blogs-container"></div>
+		<form id="new-blog" role="form">
+			<div class="form-group">
+				<input id="new-title" name="new-title" type="text" placeholder="Enter title" class="form-control">
+			</div>
+			<div class="form-group">
+				<textarea id="new-body" name="new-body" type="text" placeholder="Enter text" class="form-control" rows="4"></textarea>
+			</div>
+			<div class="form-group">
+				<input type="file" name="pic" accept="image/*">	
+			</div>
+			
+			<button type="submit" class="btn btn-default">Submit</button>
+		</form>
+		<hr/>
+	</div>
 
 
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -25,10 +36,11 @@
  	<script src="/javascripts/main.js"></script>
 
  	<script type="text/template" id="blog-template">
-	 	<span class="title">{{ title }}:</span>
-	 	<span class="body">{{ body }}</span>
+	 	<h3 class="title">{{ title }}:</h3>
+	 	<p class="body">{{ body }}</p>
 	 	<a href="#" class="btn edit">edit</a>
 		<a href="#" class="btn delete">delete</a>
+		<hr/>
  	</script>
 
 </body>
