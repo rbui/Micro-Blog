@@ -14,7 +14,7 @@
 		<label>Title:</label><input id="new-title" name="new-title" type="text"/>
 		<label>Body:</label><input id="new-body" name="new-body" type="text"/>
 		<input type="file" name="pic" accept="image/*">
-		<button> Submit</button>
+		<button class="btn"> Submit</button>
 	</form>
 	<div id="blogs-container"></div>
 
@@ -27,8 +27,8 @@
  	<script type="text/template" id="blog-template">
 	 	<span class="title">{{ title }}:</span>
 	 	<span class="body">{{ body }}</span>
-	 	<a href="#" class="edit">[edit]</a>
-		<a href="#" class="delete">[delete]</a>
+	 	<a href="#" class="btn edit">edit</a>
+		<a href="#" class="btn delete">delete</a>
  	</script>
 
 </body>

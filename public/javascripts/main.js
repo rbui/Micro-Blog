@@ -13,7 +13,8 @@
 		}
 	});
 	var BlogsList = Backbone.Collection.extend({
-		model: Blog
+		model: Blog,
+		url: 'blogs'
 	});
 	var blogs = new BlogsList();
 
@@ -77,6 +78,10 @@
 			var blog = new Blog({ title: $('#new-title').val(), body: $('#new-body').val() });
 			blogs.add(blog);
 			console.log(blogs.toJSON());
+			blog.save({}, {
+				success: function() { console.log("Successfully saved blog."); },
+				error: function() { console.log("Error saving blog."); }
+			});
 
 			return false;		
 		});

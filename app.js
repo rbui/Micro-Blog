@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var blogs = require('./controllers/blogs_controller');
 
 var app = express();
 
@@ -20,6 +21,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// CRUD
+app.get('/blogs', blogs.index);
+app.post('/blogs', blogs.create);
+app.get('/blogs/:id', blogs.show);
+app.put('/blogs/:id', blogs.update);
+app.delete('/blogs/:id', blogs.destroy);
+
 
 app.use('/', routes);
 app.use('/users', users);
